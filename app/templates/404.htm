@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load mptt_tags thumbnail %}
+{% block content %}
+{% include "modal/chronology_modal.html" %}
+<div class="col-md-3 left-side">
+    <div class="row place">
+        <div class="col-md-12">
+            <ul>
+                {% recursetree categories %}
+                {% if node.is_root_node %}
+
+                <a class="parent" href="{{node.id}}/">{{ node.name }}</a>
+                {% endif %}
+                {% if not node.is_root_node %}
+                <li class="child">
+                    <a class="children" href="{{node.id}}/"> {{ node.name }}</a>
+                </li>
+                {% endif %}
+                {% if not node.is_leaf_node %}
+                {{ children }}
+                {% endif %}
+
+                {% endrecursetree %}
+            </ul>
+        </div>
+    </div>
+    {% include 'includes/side_menu.html'%}
+    
+    
+</div>
+<div class="col-md-9 right-side">
+    <div class="row slider">
+        <div class="col-md-10">
+            <h1 class="not_found">Страница не найдена</h1>
+        </div>
+        {% include 'includes/chronology.html'%}
+    </div>
+    {% include 'includes/last_news.html'%}
+</div>
+{% endblock %}
+
+{% block inline_js %}
+    <script type="text/javascript">
+        var videoId = 'htNOc0iFXHE';
+    </script>
+    <script type="text/javascript" src="/static/js/article.js"></script>
+    <script type="text/javascript" src="/static/js/year.js"></script>
+{% endblock %}

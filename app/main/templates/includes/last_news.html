@@ -1,0 +1,16 @@
+<div class="row last_news_parse">
+	<div class="col-md-12">
+		<h3>Последние новости Октябрьского района и области</h3>
+		<div class="row">
+		    {% for news in LAST_PARS_NEWS %}
+				<div class="col-md-3 last_news_coll">
+				    <img src="{{news.image}}" width="200" height="150">
+				    <p><a target="_blank" href="{{news.url}}">{{news.name}}</a></p>
+					<div class="last_news">
+					    {{news.description}}
+					</div>
+		        </div>
+			{% endfor %}
+		</div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load mptt_tags thumbnail%}
+{% block title %}<title itemprop="name">{{"Книиги, Октябрьский район Волгоградская область"}}</title>{% endblock %}
+{% block description %}<meta name="description" content="Октябрьский район Волгоградская область книги" />{% endblock %}
+{% block content %}
+<div class="col-md-12 col-md-offset- right-side">
+    {% include "enumeration/modal/context.html" %}
+        <div class="row single_place">
+            <div class="col-md-12">
+                <h1>{{single_place.name}}</h1>
+            </div>
+            <div itemprop="description" class="col-md-12 enum_desk">
+                {{enumerations.first.parent.parent.description|safe}}
+            </div>
+            {% recursetree enumerations %}
+
+            <div class="col-md-3">
+               {% if node.description%}
+                <a href="/enumeration/page/{{node.id}}/" >
+                    {% if not node.image_enumeration %}
+                       <img class="img-responsive center-block" src="http://placehold.it/300x200&text={{ node.name }}" alt="{{ node.place.type_place|default_if_none:"" }}&nbsp;&nbsp;{{ node.place|default_if_none:"--" }}" title="{{ node.place.type_place|default_if_none:"--" }}&nbsp;&nbsp;{{ node.place|default_if_none:"" }}" class="img-responsive">
+                    {% else %}
+                        <img class="img-responsive center-block" src="{% thumbnail node.image_enumeration 280x200  crop='center' %}" alt=""/>
+                    {% endif %}
+
+
+                    <div class="col-md-10 col-md-offset-1">
+                        <p class="text-center">{{node.name}}</p>
+                    </div>
+                </a>
+                {% else %}
+                    {% if not node.image_enumeration %}
+                       <img class="img-responsive center-block" src="http://placehold.it/300x200&text={{ node.name }}" alt="{{ node.place.type_place|default_if_none:"--" }}&nbsp;&nbsp;{{ node.place|default_if_none:"--" }}" title="{{ node.place.type_place|default_if_none:"--" }}&nbsp;&nbsp;{{ node.place|default_if_none:"" }}" class="img-responsive">
+                    {% else %}
+                        <img class="img-responsive center-block" src="{% thumbnail node.image_enumeration 280x200  crop='center' %}" alt=""/>
+                    {% endif %}
+                    <p class="text-center">{{node.name}}</p>
+
+                {% endif %}
+            </div>
+
+            {% endrecursetree %}
+        </div>
+        <div class="col-md-12 col-md-offset- col-sm-12 col-xs-12 delimiter">
+
+        </div>
+</div>
+{% endblock %}
+

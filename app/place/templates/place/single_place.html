@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load mptt_tags thumbnail%}
+
+{% block content %}
+<div class="col-md-3 left-side">
+    <div class="row place">
+        <div class="col-md-12">
+            <ul>
+                {% recursetree categories %}
+
+                {% if node.is_root_node %}
+
+                <a class="underline parent" href="/{{node.id}}/">{{ node.name }}</a>
+                {% endif %}
+                {% if not node.is_root_node %}
+                <a class="children" href="/{{node.id}}/">
+                    <li class="child">{{ node.name }}</li>
+                </a>
+                {% endif %}
+                {% if not node.is_leaf_node %}
+                {{ children }}
+                {% endif %}
+
+                {% endrecursetree %}
+            </ul>
+        </div>
+    </div>
+    {% include 'includes/side_menu.html'%}
+
+</div>
+<div class="col-md-9 col-md-offset- right-side">
+
+        <div class="row single_place">
+            {% include "place/modal/context.html" %}
+        </div>
+</div>
+{% endblock %}

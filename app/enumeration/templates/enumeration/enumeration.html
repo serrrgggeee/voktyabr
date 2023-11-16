@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load mptt_tags thumbnail%}
+
+{% block title %}<title itemprop="name" >{{pages.first.parent.seo_title|default:"Октябрьский район Волгоградская область"}}</title>{% endblock %}
+{% block description %}<meta name="description" content="{{pages.first.parent.seo_description|default:"Октябрьский район Волгоградская область"}}" />{% endblock %}
+{% block content %}
+<div class="col-md-12 col-md-offset- right-side">
+    <div class="row single_place">
+        <div class="row single_place">
+            <div class="col-md-12">
+                <h1>{{single_place.name}}</h1>
+            </div>
+            <div itemprop="description" class="col-md-12">
+                    {% for page in pages %}
+                        <a href="/book/page/{{page.id}}/">{{page.name}}</a></br>
+                    {% endfor %}
+
+            </div>
+            <div class="col-md-12 col-md-offset- col-sm-12 col-xs-12 delimiter">
+
+            </div>
+        </div>
+         <div class="row">
+          {% include 'includes/soc.html'%}
+        </div>
+    </div>
+</div>
+{% endblock %}

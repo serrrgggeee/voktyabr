@@ -1,0 +1,21 @@
+{% load mptt_tags thumbnail %}
+<div class="row video">
+	<div class="col-md-11 col-md-offset-1">
+		<h3>Видео Октябрьского района</h3>
+		<div class="row">
+			<div class="col-md-9">
+				<div class="embed-responsive embed-responsive-16by9">
+					<div id="player" class="embed-responsive-item"></div>
+				</div>
+			</div>
+			<div class="col-md-3">
+            <!-- Indicators -->
+	        	<ol class="playlist_vide">
+	        		{% for video in VIDEO %}
+		        		<li id="{{video.url}}" class="play_video">{{video.name}}</li>
+		        	{% endfor %}
+	        	</ol>
+        </div>
+		</div>
+    </div>
+</div>

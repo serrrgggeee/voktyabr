@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load mptt_tags thumbnail %}
+{% block content %}
+{% include "modal/chronology_modal.html" %}
+<div class="col-md-3 left-side">
+    <div class="row place">
+        <div class="col-md-12">
+            <ul>
+                {% recursetree categories %}
+                {% if node.is_root_node %}
+
+                <a class="parent" href="{{node.id}}/">{{ node.name }}</a>
+                {% endif %}
+                {% if not node.is_root_node %}
+                <li class="child">
+                    <a class="children" href="{{node.id}}/"> {{ node.name }}</a>
+                </li>
+                {% endif %}
+                {% if not node.is_leaf_node %}
+                {{ children }}
+                {% endif %}
+
+                {% endrecursetree %}
+            </ul>
+        </div>
+    </div>
+    {% include 'includes/side_menu.html'%}
+    
+    
+</div>
+<div class="col-md-9 right-side">
+    <div class="row slider">
+        <div class="col-md-10">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+                    <!-- Wrapper for slides -->
+                    {% for node in categories %}
+                    {% if forloop.first %}
+                    <div class="item active">
+                        {% if not node.image_description %}
+                        <a href="/{{node.id}}">
+
+                            <img src="https://placehold.it/1050x600&text={{ node.name }}" alt="{{ node.name }}"
+                                 title="{{ node.name }}" class="img-responsive">
+
+                            <div class="col-md-10 col-md-offset-1">
+                                <p class="text-center labale">{{node.name}} {{node.type_place}}</p>
+                            </div>
+                        </a>
+                        {% else %}
+                        <a href="/{{node.id}}">
+                            <img src="{% thumbnail node.image_description 1050x600 crop %}" alt=""/>
+
+                            <div class="col-md-10 col-md-offset-1">
+                                <p class="text-center labale">{{node.name}} {{node.type_place}}</p>
+                            </div>
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                    <div class="item">
+                        {% if not node.image_description %}
+                        <a href="/{{node.id}}">
+                            <img src="https://placehold.it/1050x600&text={{ node.name }}" alt="{{ node.name }}"
+                                 title="{{ node.name }}" class="img-responsive">
+
+                            <div class="col-md-10 col-md-offset-1">
+                                <p class="text-center labale">{{node.type_place}} {{node.name}} </p>
+                            </div>
+                        </a>
+                        {% else %}
+                        <a href="/{{node.id}}">
+                            <img src="{% thumbnail node.image_description 1050x600 crop %}" alt=""/>
+
+                            <div class="col-md-10 col-md-offset-1">
+                                <p class="text-center labale">{{node.type_place}} {{node.name}}</p>
+                            </div>
+                        </a>
+                        {% endif %}
+                    </div>
+
+                    {% endif %}
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% include 'includes/chronology.html'%}
+    </div>
+    {% include 'includes/video_galery.html'%}
+    {% include 'includes/last_news.html'%}
+</div>
+{% endblock %}
+
+{% block inline_js %}
+    <script>
+        var videoId = 'htNOc0iFXHE';
+    </script>
+    <script src="/static/js/article.js"></script>
+    <script src="/static/js/year.js"></script>
+{% endblock %}

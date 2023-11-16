@@ -1,0 +1,106 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - db
+    volumes:
+      - static_volume:/app/static/
+      - media_volume:/app/media/
+
+
+  proxy:
+    build:
+      context: ./docker/proxy
+    restart: always
+    depends_on:
+      - app
+    ports:
+      - 1347:80
+      - 443:443
+    volumes:
+      - certbot-web:/vol/www
+      - proxy-dhparams:/vol/proxy
+      - certbot-certs:/etc/letsencrypt
+      - static_volume:/app/static/
+      - media_volume:/app/media/
+    environment:
+      - DOMAIN=${DOMAIN}
+
+  certbot:
+    build:
+      context: ./docker/certbot
+    command: echo "Skipping..."
+    environment:
+      - EMAIL=${ACME_DEFAULT_EMAIL}
+      - DOMAIN=${DOMAIN}
+    volumes:
+      - certbot-web:/vol/www
+      - certbot-certs:/etc/letsencrypt/
+    depends_on:
+      - proxy
+
+  db:
+    image: postgres:15.0-alpine
+    container_name: db
+    expose:
+    - "5432"
+    ports:
+    - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $POSTGRES_DB -U $POSTGRES_USER"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=rmuser
+      - RABBITMQ_DEFAULT_PASS=rmpassword
+    ports:
+      - 5672:5672
+    env_file:
+      - .env
+  
+  celery:
+    build: ./
+    depends_on:
+      - rabbitmq
+    command: celery -A config worker -l info
+    env_file:
+      - .env
+    volumes:
+    - ${DUMP_DIR}:/app/backap
+
+  celery-beat:
+    build: ./
+    # network_mode: host
+    depends_on:
+      - rabbitmq
+      - db
+    env_file:
+      - .env
+    command: celery -A config beat -l info
+
+
+volumes:
+  rabbitmq_data:
+  certbot-web:
+  proxy-dhparams:
+  certbot-certs:
+  pgdata:
+  static_volume:
+  media_volume:

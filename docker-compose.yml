@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  appdev:
+    build:
+      context: .
+    command: sh -c "python manage.py runserver 0.0.0.0:8888"
+    ports:
+      - 8888:8888
+    environment:
+      - DJANGO_DEBUG=1
+    env_file:
+      - .env
+
+  dbdev:
+    image: postgres:15.0-alpine
+    container_name: db_dev
+    expose:
+    - "5434"
+    ports:
+    - "5434:5434"
+    volumes:
+      - pgdata:/var/lib/postgresql/data_dev/
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $POSTGRES_DB -U $POSTGRES_USER"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+volumes:
+    pgdata:
+
+

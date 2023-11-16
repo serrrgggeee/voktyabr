@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load mptt_tags thumbnail%}
+
+{% block content %}
+<div class="col-md-12 col-md-offset- right-side">
+    <div class="row single_place">
+        <div class="col-md-12">
+            {% for page in pages %}
+                <a href="/book/page/{{page.id}}/">{{page.name}}</a></br>
+            {% endfor %}
+        </div>
+        <div class="col-md-3 col-md-offset- col-sm-3 col-xs-12 delimiter"></div>
+    </div>
+</div>
+{% endblock %}

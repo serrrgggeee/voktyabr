@@ -1,0 +1,63 @@
+{% load mptt_tags thumbnail%}
+<div itemprop="description" class="col-md-12">
+                <h1>{{single_place.name}}</h1>
+            </div>
+            <div class="col-md-12">
+              {{single_place.description | safe}}
+            </div>
+            <div class="col-md-12">
+                    <!--<h2 class="text-center">ГАЛЕРЕЯ</h2>-->
+                    {% for photo in single_place.photo.all%}
+                        <div class="col-md-3 col-md-offset- col-sm-3 col-xs-12 thumb text-center">
+                            <div class="image">
+                                <a class="thumbnail img-responsive" data-fancybox-group="group" id="image-{{photo.pk}}" title="{{photo.name}}" src="{% thumbnail photo.image.url 400x400 crop %}" alt="{{photo.name}}">
+
+                                <!--<img class="img-responsive" width="250" height="250" alt="{{photo.name}}" src="{{photo.image.url }}" />-->
+                                <img class="img-responsive" src="{% thumbnail photo.image 250x250 crop %}" alt="{{photo.name}}" /></a>
+                                {% if photo.article%}
+                                    <a href="/article/{{photo.article.pk}}/" title="{{photo.name}}">{{photo.name}}</a>
+                                {% else%}
+                                    <a class="name_link" href="{{photo.image.url}}" title="{{photo.name}}">{{photo.name}}</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+
+            </div>
+<div class="col-md-12 col-md-offset- col-sm-12 col-xs-12 delimiter">
+</div>
+<!-- Lightbox -->
+<div class="modal" id="modal-gallery" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <button class="close" type="button" data-dismiss="modal">×</button>
+          <h3 class="modal-title"></h3>
+      </div>
+      <div class="modal-body">
+          <div id="modal-carousel" class="carousel">
+
+            <div class="carousel-inner">
+
+                {% for photo in single_place.photo.all%}
+                        <div id="slide-image-{{photo.pk}}" class="item">
+                            <img src="{{photo.image.url}}" alt="{{photo.name}}" height="100%" />
+                            {% if photo.description %}
+                              <div class="img-description">{{photo.description | safe}}</div>
+                            {% endif %}
+                        </div>
+                {% endfor %}
+
+            </div>
+
+            <a class="carousel-control left" href="#modal-carousel" data-slide="prev"><i class="chevron-left"></i></a>
+            <a class="carousel-control right" href="#modal-carousel" data-slide="next"><i class="chevron-right"></i></a>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

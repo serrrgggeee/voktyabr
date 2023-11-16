@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load mptt_tags thumbnail%}
+{% block title %}<title itemprop="name">{{enumerations.first.parent.name|safe|default:"Октябрьский район Волгоградская область"}}</title>{% endblock %}
+{% block content %}
+<div class="col-md-3 left-side">
+    <div class="row place">
+        <div class="col-md-12">
+            <ul>
+                {% recursetree ORGANISATION %}
+                {% if node.is_root_node %}
+
+                <a class="underline parent" href="/{{node.id}}/">{{ node.name }}</a>
+                {% endif %}
+                {% if not node.is_root_node %}
+                <a class="children" href="/organisation/{{node.parent.slug}}/{{node.id}}/">
+                    <li class="child">{{ node.name }}</li>
+                </a>
+                {% endif %}
+                {% if not node.is_leaf_node %}
+                {{ children }}
+                {% endif %}
+
+                {% endrecursetree %}
+            </ul>
+        </div>
+    </div>
+    {% include 'includes/side_menu.html'%}
+
+</div>
+<div class="col-md-9 col-md-offset- right-side">
+    <div class="row single_place">
+        <div class="row single_place">
+            <div class="col-md-12">
+                <h1>{{page.name}}</h1>
+            </div>
+            <div itemprop="description" class="col-md-12">
+                    {{page.description | safe}}
+            </div>
+            {% include "organisation/modal/context.html" %}
+        </div>
+    </div>
+</div>
+{% endblock %}

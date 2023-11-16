@@ -1,0 +1,19 @@
+{% load static %}
+{% extends "base.html" %}
+{% load mptt_tags thumbnail%}
+
+{% block title %}<title>Октябрьский район Волгоградская область</title>{% endblock title %}
+{% block description %}<meta name="description" content="Октябрьский район Волгоградская область" />{% endblock description %}
+{% block content %}
+<div class="col-md-12 col-md-offset- right-side">
+	<img src="green.jpg" width="3600" height="4050"
+        class="reel"
+        data-image="green-reel1.jpg"
+        data-frames="8"
+        data-footage="4"
+        data-revolution="800">
+</div>
+{% endblock content %}
+{% block inline_js %}
+	<script charset='utf-8' src='jquefry.reel.js' type='text/javascript'></script>
+{% endblock inline_js %}

@@ -1,0 +1,9 @@
+{% extends "admin/base_site.html" %}
+{% block title %}Импорт документов{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Импортировать" />
+    </form>
+{% endblock %}

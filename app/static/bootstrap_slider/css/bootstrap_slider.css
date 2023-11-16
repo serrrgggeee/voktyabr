@@ -1,0 +1,15 @@
+.glyphi-chevron-right:before {
+
+}
+
+.chevron-right:before {
+
+    right: 10px;
+    background-position: 0 -72px;
+}
+
+.chevron-left {
+    background-image: url(../css/fancybox_sprite.png);
+    right: 10px;
+    background-position: 0 -36px;
+}

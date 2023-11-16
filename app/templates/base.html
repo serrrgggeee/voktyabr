@@ -1,0 +1,88 @@
+{% load mptt_tags %}
+<!DOCTYPE html>
+<html lang="en"  itemscope itemtype="https://schema.org/Book">
+<head>
+    {% block inline_js_head %}
+
+    {% endblock inline_js_head %}
+    {% include 'includes/head.html' %}
+    {% block inline_css %}{% endblock %}
+
+</head>
+<body>
+
+
+<div class="container-fluid">
+    <div class="row header-top">
+        <div class="col-md-3">
+            <div class="header-logo">
+                <!--<a href="/"><img alt="Logo" src="/static/theme/images/logo.png" width="200" height="90"></a>-->
+            </div>
+        </div>
+        <div class="col-md-5 col-md-offset-1 text-center">
+                {% if seo.h1 %}
+                    {{ seo.h1 }}
+                {% else %}
+                    <p><strong>Октябрьский район Волгоградская область</strong><p>
+                    <p><strong>места, природа, общество</strong><p>
+                {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <nav class="navbar navbar-default green_back" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <!--<a class="navbar-brand" href="#">Project name</a>-->
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul id="nav" class="nav navbar-nav">
+                <li><a href="/" class="dropdown-toggle">ГЛАВНАЯ</a></li>
+                <li><a href="/book/" class="dropdown-toggle">КНИГИ</a></li>
+                  {% recursetree ORGANISATIONS %}
+                    {% if node.is_root_node and node.type_organisation %}
+                      <li><a href="/organisation/{{node.slug}}/">{{ node.name| upper }}</a></li>
+                    {% endif %}
+                    {% if not node.is_root_node %}
+                      <a href="/organisation/{{node.slug}}/" class="dropdown-toggle">{{node.name | upper}}</a>
+                    {% endif %}
+                    {% if not node.is_leaf_node and not node.type_organisation%}
+                    <li role="presentation" class="dropdown">
+                      <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            {{node.name}}<span class="caret"></span>
+                      </a>
+                      <div class="dropdown-menu">
+                    {{ children }}
+                    </div>
+                    </li>
+                    {% endif %}
+                  {% endrecursetree %}
+                  {% for organisation in ENUMERATION%}
+                        <li><a href="/enumeration/{{organisation.slug}}/" class="dropdown-toggle">{{organisation | upper}}</a></li>
+                  {% endfor %}
+            </ul>
+        </div><!--/.container-fluid -->
+      </nav>
+    </div>
+</div>
+
+<div class="container-fluid" xmlns="https://www.w3.org/1999/html">
+    <div class="row main">
+
+
+            {% block content %}{% endblock content %}
+    </div>
+</div>
+{% block inline_js %}
+<script charset='utf-8' src='/static/js/jquery.reel.js' type='text/javascript'></script>
+{% endblock inline_js %}
+
+{% include 'includes/footer.html'%}
+
+</body>
+</html>

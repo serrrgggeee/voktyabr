@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load mptt_tags thumbnail%}
+
+{% block title %}<title>{{page.seo_title|default:"Октябрьский район Волгоградская область"}}</title>{% endblock %}
+{% block description %}<meta name="description" content="{{page.seo_description|default:"Октябрьский район Волгоградская область"}}" />{% endblock %}
+{% block content %}
+<div class="col-md-12 col-md-offset- right-side">
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" onclick="App.enumeration_context_views('/enumeration/{{page.parent.parent.slug}}/{{page.parent.id}}/')" id="btn_book_context" data-toggle="modal" data-target="#myModal">
+  {{page.parent.parent}} {{page.parent}}
+</button>
+
+       {% include "enumeration/modal/context.html" %}
+    <div class="row single_place">
+        <div class="row single_place">
+            <div class="col-md-12">
+                <h1>{{single_place.name}}</h1>
+            </div>
+            <div class="col-md-12">
+
+                    <h2 class="text-center">{{page.name}}</h2>
+                    {{page.description | safe}}
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+              <span class="share__title">Поделиться:</span>
+              <a onclick="Share.vkontakte('{{ request.build_absolute_uri }}','Октябрьский район ','','Октябрьский район ')"class="social__link" ><img src="/static/soc/soc1.png" alt="image"></a>
+              <a onclick="Share.facebook('{{ request.build_absolute_uri }}','Октябрьский район ','','Октябрьский район ')" class="social__link"><img src="/static/soc/soc2.png" alt="image"></a>
+              <a onclick="Share.twitter('{{ request.build_absolute_uri }}','Октябрьский район ','','Октябрьский район ')" class="social__link"><img src="/static/soc/soc3.png" alt="image"></a>
+              <a onclick="Share.odnoklassniki('{{ request.build_absolute_uri }}','Октябрьский район ','','Октябрьский район ')"class="social__link"><img src="/static/soc/soc4.png" alt="image"></a>
+              <a onclick="Share.mailru('{{ request.build_absolute_uri }}','Октябрьский район ','','Октябрьский район ')" class="social__link"><img src="/static/soc/soc5.png" alt="image"></a>
+              <a onclick="Share.google('{{ request.build_absolute_uri }}','Октябрьский район ','','Октябрьский район ')" class="social__link"><img src="/static/soc/soc7.png" alt="image"></a>
+    </div>
+</div>
+{% endblock %}

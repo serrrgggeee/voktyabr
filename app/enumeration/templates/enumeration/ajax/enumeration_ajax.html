@@ -1,0 +1,29 @@
+{% load mptt_tags thumbnail%}
+<div class="col-md-12 col-md-offset- right-side">
+    <div class="row single_place">
+        <div class="row single_place">
+            <div class="col-md-12">
+                <h3>{{enumerations.first.parent}}</h3>
+            </div>
+            <div class="col-md-12">
+                    <div class="row">
+                        {% recursetree enumerations %}
+                            <div class="col-md-4">
+                                {% if node.description and node.description|length|get_digit:"-1" > 1000%}
+                                    <a href="/enumeration/page/{{node.id}}/" >{{node.name}}</a>
+                                {% else %}
+                                    {{node.name}}
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                {{ node.place.type_place|default_if_none:"--" }}&nbsp;&nbsp;{{ node.place|default_if_none:"--" }}
+                            </div>
+                            <div class="col-md-4">
+&nbsp;&nbsp;
+                            </div>
+                        {% endrecursetree %}
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

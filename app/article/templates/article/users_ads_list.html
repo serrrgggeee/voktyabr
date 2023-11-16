@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+	<div id="article_ad_result">
+		<h1>Объявления</h1>
+
+	</div>
+{% endblock %}
+{% block inline_js %}
+    <script charset='utf-8' src='/static/js/user_ads_list.js' type='text/javascript'></script>
+    <script type="text/javascript">
+    	const tg_id =  '{{ request.GET.tg_id }}';
+    	const password =  '{{ request.GET.password }}';
+
+	    $( document ).ready(function() {
+	        App.article_context_views({'tg_id': tg_id, 'password': password });
+	    });
+    </script>
+    <style type="text/css">
+    	.management {
+		    display: grid;
+		    grid-template-columns: 1fr 1fr;
+		}
+		.mute, .unmute {
+			cursor: pointer;
+		}
+    </style>
+{% endblock inline_js %}

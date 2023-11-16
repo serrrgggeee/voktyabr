@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% load mptt_tags thumbnail%}
+{% block title %}<title>{{single_place.seo_title|default:"Октябрьский район Волгоградская область"}}</title>{% endblock %}
+{% block description %}<meta name="description" content="{{single_place.seo_description|default:"Октябрьский район Волгоградская область"}}" />{% endblock %}
+{% block content %}
+	{% include "photo/modal/context.html" %}
+
+{% endblock %}
