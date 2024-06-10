@@ -12,6 +12,11 @@ services:
     volumes:
       - static_volume:/app/static/
       - media_volume:/app/media/
+    expose:
+      - ${APP_PORT}
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    command: uwsgi --http :${APP_PORT} --workers 4 --master --module config.wsgi -b 32768 --enable-threads --thunder-lock
 
 
   proxy:
@@ -47,15 +52,16 @@ services:
 
   db:
     image: postgres:15.0-alpine
-    container_name: db
+    container_name: ${POSTGRES_DOCKER_NAME}
     expose:
-    - "5432"
+    - ${POSTGRES_PORT}
     ports:
-    - "5432:5432"
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
       - pgdata:/var/lib/postgresql/data/
     env_file:
       - .env
+    command: -p ${POSTGRES_PORT}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d $POSTGRES_DB -U $POSTGRES_USER"]
       interval: 5s

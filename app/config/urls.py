@@ -34,7 +34,7 @@ urlpatterns = [
     path('panoram/', include('panoram.urls')),
     path('organisation/', include('organisations.urls')),
     path('enumeration/', include('enumeration.urls')),
-    path('<int:id>/', include('place.urls')),
+    path('', include('place.urls')),
     path('photos/', include('photo.urls')),
     path('sitemap.xml',  sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), name="robots_file"),

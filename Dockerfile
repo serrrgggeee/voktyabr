@@ -20,4 +20,4 @@ RUN sed -i 's/\r$//g' entrypoint.sh
 RUN chmod +x entrypoint.sh
 
 
-CMD ["uwsgi", "--socket", ":9000", "--workers", "4", "--master", "--module", "config.wsgi"]
+# CMD ["uwsgi", "--http", ":9000", "--workers", "4", "--master", "--module", "config.wsgi"]

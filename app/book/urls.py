@@ -8,6 +8,7 @@ urlpatterns = [
     path('page/<int:id>/', views.PageView.as_view(), name='page'),
     path('<int:id>/', views.BookView.as_view(), name='enumeration'),
     path('', views.BooksView.as_view(), name='books'),
+    path('books_json/', views.books_json_view, name='books_json'),
 
 
 ]
